@@ -11,6 +11,20 @@ echo "Connecting to remote server..."
 # connect via sshpass
 sshpass -p "$PASSWORD" ssh -p $PORT "$USER@$HOST" << EOF
 echo "Running commands remotely..."
+
+# Checks for needed tools to display server statistics
+if ! command -v sshpass; then
+  echo "sshpass is not installed!"
+  echo "Installing sshpass"
+  sudo apt-get install sshpass
+fi
+
+if ! command -v mpstat; then
+  echo "sysstat is not installed!"
+  echo "Installing sysstat..."
+fi
+
+
 # Get CPU usage remotely
 mpstat | tail -n 1 | awk -F " " '{printf "CPU Usage: %.2f%%\n", 100 - \$12}'
 
