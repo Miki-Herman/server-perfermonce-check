@@ -1,11 +1,24 @@
 #!/bin/bash
 
 # connects to any server via ssh
+echo "#############################################"
+echo "Welcome to remote server performance checker!"
+echo "#############################################"
 
-USER='<user>' # TODO: replace user wiht actual user
-HOST='<host>' # TODO: replace host with ip or hostname of server
-PORT='<port>' # TODO: replace server port 
-PASSWORD='<password>'  # TODO: replace with actuaal password !IMPORTANT! -> Never commit actual password
+read -r -p "Please enter username: " USER
+read -r -p "Please enter host name or ip: " HOST
+read -r -p "Please enter server port: " PORT
+read -r -sp "Please enter password: " PASSWORD
+
+echo "Checking if ssh connection is possible..."
+if ssh -o BatchMode=yes -o ConnectTimeout="$TIMEOUT" -p "$PORT" "$USER@$HOST" 2>/dev/null; then
+    echo "SSH connection successful to $HOST"
+else
+    echo "SSH connection failed to $HOST"
+    echo "Exiting script"
+    exit 0
+fi
+
 
 echo "Connecting to remote server..."
 # connect via sshpass
