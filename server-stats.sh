@@ -10,16 +10,6 @@ read -r -p "Please enter host name or ip: " HOST
 read -r -p "Please enter server port: " PORT
 read -r -sp "Please enter password: " PASSWORD
 
-echo "Checking if ssh connection is possible..."
-if ssh -o BatchMode=yes -o ConnectTimeout=10 -p "$PORT" "$USER@$HOST" 2>/dev/null; then
-    echo "SSH connection successful to $HOST"
-else
-    echo "SSH connection failed to $HOST"
-    echo "Exiting script"
-    exit 0
-fi
-
-
 echo "Connecting to remote server..."
 # connect via sshpass
 sshpass -p "$PASSWORD" ssh -p $PORT "$USER@$HOST" << EOF
